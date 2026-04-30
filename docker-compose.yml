@@ -1,0 +1,43 @@
+services:
+  # База данных
+  db:
+    image: postgres:15-alpine
+    container_name: mrp_db
+    restart: always
+    ports:
+      - "5433:5433"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  # Бэкенд на Go
+  backend:
+    build: ./backend
+    container_name: mrp_backend
+    restart: always
+    ports:
+      - "8090:8090"
+    environment:
+      - DB_DSN=host=${DB_HOST} user=${DB_USER} password=${DB_PASSWORD} dbname=${DB_NAME} port=${DB_PORT} sslmode=disable
+    depends_on:
+      - db
+
+  # Фронтенд на React
+  frontend:
+    build: ./frontend
+    container_name: mrp_frontend
+    restart: always
+    ports:
+      - "89:89"
+    depends_on:
+      - backend
+    # Добавляем разрешение хоста для Vite прямо тут
+    environment:
+      - VITE_ALLOWED_HOSTS=mrp.kkhome.ru
+
+volumes:
+  pg_data:
+
