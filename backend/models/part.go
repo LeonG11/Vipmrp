@@ -1,6 +1,7 @@
 package models
 
 const (
+    StatusImport = "Запланировано"
     StatusWarehouse = "Склад"
     StatusSawing = "Пила"
     StatusEdging = "Кромка"
@@ -40,6 +41,7 @@ func IsValidStatus(s string) bool {
 
 type Part struct {
 	ID           string  `gorm:"primaryKey" json:"id" binding:"required"` // № или Обозначение
+	Destignation string  `json:"destignation" binding:"required"` // № или Обозначение
 	OrderNo      string  `json:"order_no" binding:"required"`             // Заказ изделия
 	Name         string  `json:"name" binding:"required"`                 // Наименование детали
 	Material     string  `json:"material" binding:"required"`             // Наименование материала
@@ -61,6 +63,6 @@ type Part struct {
 	Note         string  `json:"note"`                 // Примечание
 	ProductName  string  `json:"product_name" binding:"required"`         // Наимен. изделия
 	
-	Status       string  `json:"status" gorm:"default:'Ожидает распила'"`
+	Status       string  `json:"status" gorm:"default:Создан"`
 }
 

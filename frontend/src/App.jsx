@@ -1,18 +1,27 @@
 import { useState, useEffect } from 'react';
 import * as api from './api';
-import PartForm from './components/PartForm';
 import PartsTable from './components/PartsTable';
 import Scanner from './components/Scanner';
+import CsvImporter from './components/CsvImporter';
 
 function App() {
-  const [allParts, setAllParts] = useState([]);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [selectedPart, setSelectedPart] = useState(null); // Добавили стейт
+  const [parts, setParts] = useState([]);
+
 
   const loadData = async () => {
-    const res = await api.getAllParts();
-    setAllParts(res.data);
+      try{
+          const res = await api.getAllParts();
+          setParts(res.data || []);
+      }catch(e){
+          console.error(e);
+      }
   };
+
+  useEffect(()=>{
+      loadData();
+  }, []);
 
   const handleScan = async (id) => {
     try {
@@ -36,8 +45,6 @@ function App() {
       }
   };
 
-  useEffect(() => { loadData(); }, []);
-
   return (
     <div className="min-h-screen bg-[#0f172a] text-slate-200 p-6 flex flex-col items-center">
       <header className="w-full max-w-4xl mb-12 flex justify-between items-center">
@@ -48,10 +55,10 @@ function App() {
         >
           <span>📷</span> Сканировать QR
         </button>
+        <CsvImporter onImported={loadData} />
       </header>
 
       <main className="w-full max-w-4xl space-y-8">
-        {/* Исправлено: onClose={...} вместо onClos */}
         {isScannerOpen && (
           <Scanner 
             onScan={handleScan} 
@@ -59,7 +66,6 @@ function App() {
           />
         )}
       
-        {/* Инфо о выбранной детали (если отсканировали) */}
         {selectedPart && (
           <div className="bg-blue-900/30 border border-blue-500 p-4 rounded-lg flex justify-between items-center">
             <div>
@@ -71,7 +77,7 @@ function App() {
         )}
 
         <PartForm onCreated={loadData} />
-        <PartsTable parts={allParts} onRefresh={loadData} onDelete={handleDelete} />
+        <PartsTable parts={parts} onRefresh={loadData} onDelete={handleDelete} />
       </main>
     </div>
   );

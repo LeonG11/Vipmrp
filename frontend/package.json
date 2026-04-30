@@ -13,8 +13,10 @@
     "@tailwindcss/vite": "^4.2.4",
     "axios": "^1.15.2",
     "html5-qrcode": "^2.3.8",
+    "papaparse": "^5.5.3",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "react-router-dom": "^7.14.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
