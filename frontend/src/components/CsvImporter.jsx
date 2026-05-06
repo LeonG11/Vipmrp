@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { parseAndImportCsv } from '../api';
+import React, { useRef } from "react";
+import { parseAndImportCsv } from "../api";
 
 export default function CsvImporter({ onImported }) {
   const fileInputRef = useRef(null);
@@ -13,34 +13,30 @@ export default function CsvImporter({ onImported }) {
       alert(`Успешно! Загружено деталей: ${result.count}`);
       if (onImported) onImported(); // Обновляем список деталей на странице
     } catch (err) {
-      alert("Ошибка импорта: " + err);
+      alert(`Ошибка импорта: ${err}`);
     } finally {
       // Очищаем инпут, чтобы можно было загрузить тот же файл повторно
-      if (fileInputRef.current) fileInputRef.current.value = '';
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
   return (
-    <div className="bg-slate-800/50 border-2 border-dashed border-slate-700 rounded-3xl p-6 mb-8 flex flex-col items-center justify-center transition-all hover:border-blue-500/50">
-      <h3 className="text-white font-bold mb-2">Импорт заказа из Базиса</h3>
-      <p className="text-slate-400 text-sm mb-4">Выберите .csv файл для массовой загрузки</p>
-      
-      <input 
-        type="file" 
-        ref={fileInputRef}
-        onChange={handleUpload} 
-        accept=".csv" 
-        className="hidden" 
+    <div className="flex items-center">
+      <input
+        type="file"
+        accept=".csv"
+        onChange={handleUpload}
+        className="hidden"
         id="csv-upload"
       />
-      
-      <label 
+      <label
         htmlFor="csv-upload"
-        className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-xl cursor-pointer transition-all shadow-lg active:scale-95"
+        className="h-9 md:h-10 px-4 md:px-6 bg-state-800 hover:bg-state-700 text white rounded-lg md:rounded-xl cursor-pointer transition-all border boder-slate-700 flex items-center justify-center gap-2 text-[10px] md:text-xs font-bold shadow-sm"
       >
-        ВЫБРАТЬ ФАЙЛ
+        <span className="text-blue-400 text-sm">📁</span>
+        <span className="hidden lg:inline">ИМПОРТ БАЗИС</span>
+        <span className="lg:hidden">ИМПОРТ</span>
       </label>
     </div>
   );
 }
-

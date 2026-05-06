@@ -3,9 +3,11 @@ package database
 import (
 	"log"
 	"os"
-	"viplight-mrp/models" // Замени viplight-mrp на имя своего модуля из go.mod
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	"viplight-mrp/models"
 )
 
 var DB *gorm.DB
@@ -18,6 +20,5 @@ func InitDB() {
 		log.Fatal("Failed to connect to database:", err)
 	}
 
-	DB.AutoMigrate(&models.Part{})
+	DB.AutoMigrate(&models.Order{}, &models.Part{})
 }
-

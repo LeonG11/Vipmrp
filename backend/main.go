@@ -1,9 +1,10 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"viplight-mrp/database"
 	"viplight-mrp/handlers"
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -26,12 +27,11 @@ func main() {
 	// Роуты теперь вызывают функции из handlers
 	r.GET("/api/parts/:id", handlers.GetPart)
 	r.GET("/api/parts", handlers.GetAllParts)
+	r.GET("/api/orders", handlers.GetsOrders)
 	r.POST("/api/parts", handlers.CreatePart)
 	r.POST("/api/parts/bulk", handlers.ImportParts)
 	r.PATCH("/api/parts/:id/status", handlers.UpdateStatus)
 	r.DELETE("/api/parts/:id", handlers.DeletePart)
 
-
 	r.Run(":8090")
 }
-
