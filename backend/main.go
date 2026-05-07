@@ -1,7 +1,10 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 
 	"viplight-mrp/database"
 	"viplight-mrp/handlers"
@@ -11,6 +14,11 @@ func main() {
 	database.InitDB()
 
 	r := gin.Default()
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Файл .env не был найден в папке backend, использую системные переменные")
+	}
 
 	// CORS Middleware
 	r.Use(func(c *gin.Context) {
