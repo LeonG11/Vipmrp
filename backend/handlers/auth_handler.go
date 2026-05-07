@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"net/http"
-	"time"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -13,10 +13,8 @@ import (
 	"viplight-mrp/models"
 )
 
-jwtSecret := os.Getenv("JWT_SECRET")
-jwtKey := []byte(jwtSecret) 
-
 func Login(c *gin.Context) {
+	jwtKey := []byte(os.Getenv("JWT_SECRET"))
 	var input struct {
 		Username string `json:"username"`
 		Password string `json:"password"`
